@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,6 +19,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
 
 import eu.whichway.kayakilocationapp.databinding.ActivityMapsBinding;
 
@@ -75,7 +80,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.addMarker(new MarkerOptions().position(latLng).title("Pozycja Kayaku"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
-                    String phoneNumber ="48577744618";
+                    String phoneNumber ="";
+                  //  Properties prop = new Properties();
+
+                  //  prop.load(new FileInputStream("../local.properties"));
+                 //   phoneNumber= prop.getProperty("PHONE_NUMBER");
+                  //  System.out.println(phoneNumber);
+                     phoneNumber =getResources().getString(R.string.number);
+                    Log.i("DuoBelt", "This is my log message at the debug level here");
+                    Log.i("DuoBel", phoneNumber);
+
                     String myLatiude = String.valueOf(location.getAltitude());
                     String myLongitude = String.valueOf(location.getLongitude());
                     String message = "Latitude = " + myLatiude + " Longitude = " +myLongitude;
