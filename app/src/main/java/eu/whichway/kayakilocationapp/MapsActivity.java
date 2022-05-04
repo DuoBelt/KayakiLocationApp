@@ -81,12 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
                     String phoneNumber ="";
-                  //  Properties prop = new Properties();
-
-                  //  prop.load(new FileInputStream("../local.properties"));
-                 //   phoneNumber= prop.getProperty("PHONE_NUMBER");
-                  //  System.out.println(phoneNumber);
-                     phoneNumber =getResources().getString(R.string.number);
+                    phoneNumber = BuildConfig.USERNAME;
                     Log.i("DuoBelt", "This is my log message at the debug level here");
                     Log.i("DuoBel", phoneNumber);
 

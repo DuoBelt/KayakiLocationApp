@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">KayakiLocationApp</string>
-    <string name="title_activity_maps">MapsActivity</string>
-    <string name="number">48577744618</string>
+    <string name="title_activity_maps">Kayaki</string>
 </resources>
