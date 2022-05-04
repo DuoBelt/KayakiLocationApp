@@ -63,8 +63,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        LatLng sydney = new LatLng(54.0510, 23.1717);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Maćkowa Ruda -Pole namiotowe"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
         locationListener = new LocationListener() {
@@ -78,7 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     String phoneNumber ="48577744618";
                     String myLatiude = String.valueOf(location.getAltitude());
                     String myLongitude = String.valueOf(location.getLongitude());
-                    String message = "Latitude = " + myLatiude + "Longitude = " +myLongitude;
+                    String message = "Latitude = " + myLatiude + " Longitude = " +myLongitude;
                     SmsManager smsManager = SmsManager.getDefault();
                  //   smsManager.sendDataMessage(phoneNumber, null, message,null, null);
                     smsManager.sendTextMessage(phoneNumber,null, message, null, null);
