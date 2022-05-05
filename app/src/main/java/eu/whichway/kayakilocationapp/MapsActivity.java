@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,6 +23,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
 
 import eu.whichway.kayakilocationapp.databinding.ActivityMapsBinding;
@@ -76,6 +82,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 try {
+
+                    int PERMISSION_REQUEST_CODE = 1;
+
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+
+                        if (checkSelfPermission(Manifest.permission.SEND_SMS)
+                                == PackageManager.PERMISSION_DENIED) {
+
+                            Log.d("permission", "permission denied to SEND_SMS - requesting it");
+                            String[] permissions = {Manifest.permission.SEND_SMS};
+
+                            requestPermissions(permissions, PERMISSION_REQUEST_CODE);
+
+                        }
+                    }
+
+
+                    Toast.makeText(MapsActivity.this,
+                            "Get location", Toast.LENGTH_LONG).show();
                     latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     mMap.addMarker(new MarkerOptions().position(latLng).title("Pozycja Kayaku"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -85,15 +110,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.i("DuoBelt", "This is my log message at the debug level here");
                     Log.i("DuoBel", phoneNumber);
 
+                    Date currentTime = Calendar.getInstance().getTime();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern( "dd/MM/yyyy hh:mm a" );
+                    String currentTimeString = String.valueOf(currentTime);
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+                    String currentDateandTime = sdf.format(new Date());
+
+                    Log.i("DuoBel", currentDateandTime);
                     String myLatiude = String.valueOf(location.getAltitude());
                     String myLongitude = String.valueOf(location.getLongitude());
-                    String message = "Latitude = " + myLatiude + " Longitude = " +myLongitude;
+
+                    String message = "Kayak XX " + " Time: "+currentDateandTime +" Lat:" + myLatiude + " Lon:" +myLongitude;
                     SmsManager smsManager = SmsManager.getDefault();
+                    Log.i("DuoBelt", message);
+                    Log.i("DuoBelt", String.valueOf(message.length()));
                  //   smsManager.sendDataMessage(phoneNumber, null, message,null, null);
                     smsManager.sendTextMessage(phoneNumber,null, message, null, null);
+                    Toast.makeText(MapsActivity.this,
+                            "Send SMS", Toast.LENGTH_LONG).show();
+
                 }
                 catch(Exception e){
                     e.printStackTrace();
+                    Log.i("DuoBelt", " Exception onLocationChanged ");
                 }
 
             }
